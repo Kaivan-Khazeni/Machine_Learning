@@ -2,27 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="HW1">
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/HW1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/Bank_Data/data-desc.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/Bank_Data/test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/Bank_Data/train.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/HW1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/Bank_Data/data-desc.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/Bank_Data/test.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/Bank_Data/train.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Linear Regression/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1633983335670</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="HW1">
+      <created>1633991752393</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1633991752393</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

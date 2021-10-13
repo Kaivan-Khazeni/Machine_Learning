@@ -17,13 +17,16 @@ def dict_path(my_dict, path=None):
 def find_total_entropy(max_labels,variant,S):
   if variant == 1:
     #use entropy
-    type_name = S.keys()[-1]
-    entropy = 0
+    type_name = 'y'
+    error = 0
     label_names = S[type_name].unique()
-    for val in label_names:
-      p = S[type_name].value_counts()[val] / len(S[type_name])
-      entropy += -p*np.log2(p)
-    return entropy
+
+    print(S)
+    p = S.loc[S['y'] == 1, 'D_t'].sum()
+    _p = S.loc[S['y'] == -1, 'D_t'].sum()
+    error = -p * np.log(p) - _p * np.log(_p)
+
+    return error
   elif variant == 2:
     #use ME
     type_name = S.keys()[-1]
@@ -55,20 +58,25 @@ def find_best_split(max_labels, variant, attr, S, total_ent):
     list_of_IG = {}
     for A1 in attr:
         curr_attr = A1
-        curr_df = S[[curr_attr, S.keys()[-1]]]
+
+        curr_df = S[[curr_attr, 'y','D_t']]
+        print(curr_df)
 
         len_A1_df = len(curr_df[curr_attr])
         found_sum_expected_entropy = 0
         all_attr_values = curr_df[curr_attr].unique()
         for A2 in all_attr_values:
+            print(all_attr_values)
+            print("A2")
+            print(A2)
 
             attribute_specific = curr_df[curr_df[curr_attr] == A2]
+
             found_expected_entropy = 0
             entropy = find_total_entropy(max_labels, variant, attribute_specific)
-            if (entropy == 1 and variant == 2):
-                entropy = 0
             found_sum_expected_entropy += (entropy * (len(attribute_specific) / len_A1_df))
         list_of_IG[A1] = total_ent - found_sum_expected_entropy
+        print(list_of_IG)
     return list_of_IG
 
 def check_for_numerical(df_S):
@@ -85,46 +93,49 @@ def check_for_numerical(df_S):
 
 # max depth will range from 1 - 6
 def ID3(max_labels, max_depth, variant, S, A, tree=None):
-
-
     # if len(S[S.keys()[-1]].unique()) > max_labels:
-    max_labels = len(S[S.keys()[-1]].unique())
-    labels_value = S[S.keys()[-1]].unique()
-    Class = S.keys()[-1]
+    max_labels = len(S['y'].unique())
+    labels_value = S['y'].unique()
+    Class = 'y'
     # Step 1: check if all examplesa have the same label
     # keep counter to make sure iterations do not exceed the max depth
     if max_depth >= 0:
-
         # Finding root based off of gain
         # A. Find Total entropy using variant
         total_entropy = find_total_entropy(max_labels, variant, S)
+        print(total_entropy)
         # B. Now find the best split, which is A.
-        table_attributes = S.loc[:, S.columns != S.keys()[-1]].columns
-
+        table_attributes = S[S.columns[~S.columns.isin(['y','D_t','Weighted_y'])]].columns
+        print(table_attributes)
         best_A = find_best_split(max_labels, variant, table_attributes, S, total_entropy)
-
+        print("found A")
+        print(best_A)
         A = sorted(best_A.items(), key=lambda x: x[1], reverse=True)[0][0]
-
+        print(A)
         if tree is None:
             tree = {}
             tree[A] = {}
+
 
         try:
             values_of_A = S[A].unique()
         except:
             print(S)
 
+
         for A_val in values_of_A:
             Sv = S.loc[S[A] == A_val, S.columns != A]
-            common, counts = np.unique(Sv[Sv.keys()[-1]], return_counts=True)
+            common, counts = np.unique(Sv['y'], return_counts=True)
             if max_depth == 0:
-                tree[A][A_val] = common[0]
+
+                tree[A] = common[0]
                 return tree
 
             if len(Sv.columns) == 1 or len(counts) == 1:
                 tree[A][A_val] = common[0]
+
             else:
-                tree[A][A_val] = ID3(max_labels, max_depth - 1, variant, Sv, A, tree=None)
+                tree[A][A_val] = common[0]
         return tree
 
 def get_error_of_trees(df_A,df_test_A):
@@ -159,9 +170,9 @@ def get_error_of_trees(df_A,df_test_A):
                 length = len(df_filter)
                 length_test = len(df_filter_test)
 
-                count_of_accuracies = len(df_filter[df_filter[df_filter.keys()[-1]] == curr_path[1]])
+                count_of_accuracies = len(df_filter[df_filter['y'] == curr_path[1]])
                 count_of_accuracies_test = len(
-                    df_filter_test[df_filter_test[df_filter_test.keys()[-1]] == curr_path[1]])
+                    df_filter_test[df_filter_test['y'] == curr_path[1]])
 
                 count_of_inaccuracies = length - count_of_accuracies
                 count_of_inaccuracies_test = length_test - count_of_accuracies_test
@@ -189,8 +200,30 @@ def get_error_of_trees(df_A,df_test_A):
     error_df = pd.DataFrame(Errors, index=['Entropy', 'MajorityError', 'Gini Index'])
     return error_df
 
+def adaboost(S,t):
+
+    for i in range(1):
+
+        train_tree = ID3(-1 * float("inf"), 1, 1, S, "none", tree=None)
+        print(train_tree)
+
+        error = 0
+        type_name = 'y'
+        label_names = S[type_name].unique()
+        p = S.loc[S['y'] == 1, 'D_t'].sum()
+        _p = S.loc[S['y'] == -1, 'D_t'].sum()
+        error = -p*np.log(p) - _p*np.log(_p)
+        vote = 0.5*np.log((1-error)/error)
+        paths = list(dict_path(train_tree, path=None))
+
+        root = paths[0][0]
+        list_pred = []
+        for j in range(len(paths)):
+            root_value = paths[j][1]
+
+
+
 if __name__ == '__main__':
-    print("HELLO")
     bank_attributes = ["age", "job", "marital", "education", "default", "balance", "housing", "loan", "contact", "day",
                        "month", "duration", "campaign", "pdays", "previous", "poutcome", "y"]
 
@@ -200,9 +233,22 @@ if __name__ == '__main__':
     temp = bank_df_train
     #Print Errors with Unknown in table, but fix numericals to be binary
     bank_df_train = check_for_numerical(temp)
-    train_tree = ID3(-1 * float("inf"), 0, 1, bank_df_train, "none", tree=None)
-    import pprint
-    pprint.pprint(train_tree)
+    bank_df_train.loc[(bank_df_train["y"] == "no"), "y"] = -1
+    bank_df_train.loc[(bank_df_train["y"] == "yes"), "y"] = 1
+
+
+    bank_df_train['D_t'] = 1/len(bank_df_train)
+    bank_df_train['Weighted_y'] = bank_df_train['y'] * bank_df_train['D_t']
+    print(bank_df_train.head(5))
+    print(bank_df_train[bank_df_train.y == 1])
+    sub_df = bank_df_train[['age','y','D_t']]
+
+
+
+
+
+
+    adaboost(bank_df_train, 500)
 
 
 
