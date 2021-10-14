@@ -102,9 +102,7 @@ def ID3(max_labels, max_depth, variant, S, A, tree=None):
         # B. Now find the best split, which is A.
         table_attributes = S[S.columns[~S.columns.isin(['y','D_t','Weighted_y','pred','D_t+1'])]].columns
         best_A = find_best_split(max_labels, variant, table_attributes, S, total_entropy)
-        print(best_A)
         A = sorted(best_A.items(), key=lambda x: x[1], reverse=True)[0][0]
-
         tree = {}
         tree[A] = {}
         if max_depth == 0:
@@ -120,7 +118,12 @@ def ID3(max_labels, max_depth, variant, S, A, tree=None):
             if len(Sv.columns) == 1 or len(counts) == 1:
                 tree[A][A_val] = common[0]
             else:
-                tree[A][A_val] = common[0]
+                p = S.loc[S['y'] == 1, 'D_t'].sum()
+                _p = S.loc[S['y'] == -1, 'D_t'].sum()
+                if p > _p:
+                    tree[A][A_val] = 1
+                else:
+                    tree[A][A_val] = -1
         return total_entropy,tree
 
 def get_error_of_trees(df_A,df_test_A):
@@ -186,9 +189,12 @@ def get_error_of_trees(df_A,df_test_A):
     return error_df
 
 def adaboost(S,t):
+    dict_ = {}
+    sum_of_vote_pred = []
     for i in range(0,t):
+        dict_[i] = {}
+
         entropy , train_tree = ID3(-1 * float("inf"), 1, 1, S, "none", tree=None)
-        print(train_tree)
         paths = list(dict_path(train_tree, path=None))
         #print(paths)
         for path in paths:
@@ -196,20 +202,30 @@ def adaboost(S,t):
             value = path[0][1]
             label = path[1]
             S.loc[S[attr] == value , 'pred'] = label
-        #print(-vote * S['y'] * S['pred'])
 
         error = S.loc[S['y'] != S['pred'], 'D_t'].sum()
-        print(error)
+
         vote = 0.5*np.log((1-error)/error)
-        #print(vote)
-        for j in range(0,len(S)):
-            S['D_t+1'].loc[j] = S['D_t'].loc[j] * math.exp(-vote * S['y'].loc[j] * S['pred'].loc[j])
-            S['D_t+1'].loc[j] = S['D_t+1'].loc[j]/sum(S['D_t+1'])
-            S['D_t'].loc[j] = S['D_t+1'].loc[j]
+        dict_[i]['vote'] = vote
+        dict_[i]['pred'] = S['pred'].values
 
+        #for j in range(0,len(S)):
 
+        S['D_t+1'] = S['D_t'] * np.power(2.718281 , (-1 * round(vote,3) * S['y'] * S['pred']))
+        S['D_t+1'] = S['D_t+1']/sum(S['D_t'])
+        S['D_t'] = S['D_t+1']
+        #print(i)
 
+    final_pred = []
+    for i in range(len(S)):
+        h_i = []
+        for T in range(0,t):
+            vote_A = dict_[T]['vote']
+            h_pred = dict_[T]['pred'][i]
+            h_i.append(vote_A * h_pred)
+        final_pred.append(np.sign(sum(h_i)))
 
+    print(final_pred)
 
 
 
@@ -237,11 +253,7 @@ if __name__ == '__main__':
     sub_df = bank_df_train[['age','y','D_t']]
 
 
-
-
-
-
-    adaboost(bank_df_train, 500)
+    adaboost(bank_df_train, 100)
 
 
 
