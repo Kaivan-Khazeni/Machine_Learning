@@ -1,3 +1,4 @@
+import math
 
 import pandas as pd
 import numpy as np
@@ -21,7 +22,7 @@ def find_total_entropy(max_labels,variant,S):
     error = 0
     label_names = S[type_name].unique()
 
-    print(S)
+    #print(S)
     p = S.loc[S['y'] == 1, 'D_t'].sum()
     _p = S.loc[S['y'] == -1, 'D_t'].sum()
     error = -p * np.log(p) - _p * np.log(_p)
@@ -60,23 +61,18 @@ def find_best_split(max_labels, variant, attr, S, total_ent):
         curr_attr = A1
 
         curr_df = S[[curr_attr, 'y','D_t']]
-        print(curr_df)
+        #print(curr_df)
 
         len_A1_df = len(curr_df[curr_attr])
         found_sum_expected_entropy = 0
         all_attr_values = curr_df[curr_attr].unique()
         for A2 in all_attr_values:
-            print(all_attr_values)
-            print("A2")
-            print(A2)
-
             attribute_specific = curr_df[curr_df[curr_attr] == A2]
-
             found_expected_entropy = 0
             entropy = find_total_entropy(max_labels, variant, attribute_specific)
             found_sum_expected_entropy += (entropy * (len(attribute_specific) / len_A1_df))
         list_of_IG[A1] = total_ent - found_sum_expected_entropy
-        print(list_of_IG)
+        #print(list_of_IG)
     return list_of_IG
 
 def check_for_numerical(df_S):
@@ -103,40 +99,29 @@ def ID3(max_labels, max_depth, variant, S, A, tree=None):
         # Finding root based off of gain
         # A. Find Total entropy using variant
         total_entropy = find_total_entropy(max_labels, variant, S)
-        print(total_entropy)
         # B. Now find the best split, which is A.
-        table_attributes = S[S.columns[~S.columns.isin(['y','D_t','Weighted_y'])]].columns
-        print(table_attributes)
+        table_attributes = S[S.columns[~S.columns.isin(['y','D_t','Weighted_y','pred','D_t+1'])]].columns
         best_A = find_best_split(max_labels, variant, table_attributes, S, total_entropy)
-        print("found A")
         print(best_A)
         A = sorted(best_A.items(), key=lambda x: x[1], reverse=True)[0][0]
-        print(A)
-        if tree is None:
-            tree = {}
-            tree[A] = {}
 
-
+        tree = {}
+        tree[A] = {}
+        if max_depth == 0:
+            tree[A] = S['y'].mode()[0]
+            return tree
         try:
             values_of_A = S[A].unique()
         except:
             print(S)
-
-
         for A_val in values_of_A:
             Sv = S.loc[S[A] == A_val, S.columns != A]
             common, counts = np.unique(Sv['y'], return_counts=True)
-            if max_depth == 0:
-
-                tree[A] = common[0]
-                return tree
-
             if len(Sv.columns) == 1 or len(counts) == 1:
                 tree[A][A_val] = common[0]
-
             else:
                 tree[A][A_val] = common[0]
-        return tree
+        return total_entropy,tree
 
 def get_error_of_trees(df_A,df_test_A):
     # TRAINING ERROR
@@ -201,25 +186,30 @@ def get_error_of_trees(df_A,df_test_A):
     return error_df
 
 def adaboost(S,t):
-
-    for i in range(1):
-
-        train_tree = ID3(-1 * float("inf"), 1, 1, S, "none", tree=None)
+    for i in range(0,t):
+        entropy , train_tree = ID3(-1 * float("inf"), 1, 1, S, "none", tree=None)
         print(train_tree)
-
-        error = 0
-        type_name = 'y'
-        label_names = S[type_name].unique()
-        p = S.loc[S['y'] == 1, 'D_t'].sum()
-        _p = S.loc[S['y'] == -1, 'D_t'].sum()
-        error = -p*np.log(p) - _p*np.log(_p)
-        vote = 0.5*np.log((1-error)/error)
         paths = list(dict_path(train_tree, path=None))
+        #print(paths)
+        for path in paths:
+            attr = path[0][0]
+            value = path[0][1]
+            label = path[1]
+            S.loc[S[attr] == value , 'pred'] = label
+        #print(-vote * S['y'] * S['pred'])
 
-        root = paths[0][0]
-        list_pred = []
-        for j in range(len(paths)):
-            root_value = paths[j][1]
+        error = S.loc[S['y'] != S['pred'], 'D_t'].sum()
+        print(error)
+        vote = 0.5*np.log((1-error)/error)
+        #print(vote)
+        for j in range(0,len(S)):
+            S['D_t+1'].loc[j] = S['D_t'].loc[j] * math.exp(-vote * S['y'].loc[j] * S['pred'].loc[j])
+            S['D_t+1'].loc[j] = S['D_t+1'].loc[j]/sum(S['D_t+1'])
+            S['D_t'].loc[j] = S['D_t+1'].loc[j]
+
+
+
+
 
 
 
@@ -239,8 +229,11 @@ if __name__ == '__main__':
 
     bank_df_train['D_t'] = 1/len(bank_df_train)
     bank_df_train['Weighted_y'] = bank_df_train['y'] * bank_df_train['D_t']
-    print(bank_df_train.head(5))
-    print(bank_df_train[bank_df_train.y == 1])
+    #print(bank_df_train.head(5))
+   # print(bank_df_train[bank_df_train.y == 1])
+    bank_df_train['pred'] = 0
+    bank_df_train['D_t+1'] = 0
+
     sub_df = bank_df_train[['age','y','D_t']]
 
 
