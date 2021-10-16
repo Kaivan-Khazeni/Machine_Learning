@@ -212,8 +212,8 @@ def adaboost(S,S_test,t):
 
         error_train = S.loc[S['y'] != S['pred'], 'D_t'].sum()
         error_test = S_test.loc[S_test['y'] != S_test['pred'], 'D_t'].sum()
-        errors_['train'].append(error_train)
-        errors_['test'].append(error_test)
+        errors_['train'].append(error_train / np.sum(S['D_t']))
+        errors_['test'].append(error_test/ np.sum(S_test['D_t']))
 
 
         errors_per_t.append(error_train)
@@ -234,6 +234,8 @@ def adaboost(S,S_test,t):
     #err = []
     #for t_ in range(t):
     # training_error = []
+    count_train = 0
+    count_test = 0
     for i in range(len(S)):
         h_i = []
         for T in range(0,t):
@@ -241,14 +243,14 @@ def adaboost(S,S_test,t):
             h_pred = dict_[T]['pred'][i]
             h_i.append(vote_A * h_pred)
         final_pred.append(np.sign(sum(h_i)))
+        if np.sign(sum(h_i)) != S['y'][i]:
+            count_train += 1
+        if np.sign(sum(h_i)) != S_test['y'][i]:
+            count_test += 1
         #training_error.append(np.power(2.71828, S['D_t'][i] * final_pred[i] * S['y'][i]))
     #err.append(np.sum(training_error))
     #print(err)
-    count = 0
-    for j in range(5000):
-       if final_pred[j] != S['y'][j]:
-           count += 1
-    return count
+    return errors_, count_train,count_test
 
 
 
@@ -285,17 +287,34 @@ if __name__ == '__main__':
 
     sub_df = bank_df_train[['age','y','D_t']]
 
-    errors_per_t = []
-    for i in range(1,500):
-        e = adaboost(bank_df_train,bank_df_test,i)
-        errors_per_t.append(np.power(2.71828 , e * i))
+    errors_per_t_train = []
+    errors_per_t_test = []
+    axis_y = []
 
 
+    for i in range(1,10):
 
-    data = np.random.randint(3, 7, (10, 1, 1, 80))
-    newdata = np.squeeze(data)  # Shape is now: (10, 80)
-    plt.plot(newdata)  # plotting by columns
+        e, e1 = adaboost(bank_df_train,bank_df_test,i)
+
+        e = (e/5000)
+        e1 = (e1/5000)
+
+
+        errors_per_t_train.append(1 / np.power(2.71828 , e * i))
+        errors_per_t_test.append(1 / np.power(2.71828, e1* i))
+        axis_y.append(i)
+
+    #print(errors_per_t)
+
+
+    data_a = errors_per_t_train
+    data_b = errors_per_t_test
+   # Shape is now: (10, 80)
+    plt.plot(axis_y,data_a)
+    plt.plot(axis_y,data_b) # plotting by columns
+
     plt.show()
+
 
 
 

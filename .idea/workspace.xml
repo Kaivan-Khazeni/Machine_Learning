@@ -139,7 +139,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634230536306</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="HW1">
+      <created>1634408492129</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1634408492130</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,17 +170,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>229</line>
+          <line>230</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>287</line>
+          <line>294</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>249</line>
+          <line>252</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
