@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="HW1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linear Regression/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Linear Regression/main_LR.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +37,11 @@
       <recent name="$PROJECT_DIR$/Ensemble  Learning" />
       <recent name="$PROJECT_DIR$/Linear Regression" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Linear Regression" />
+    </key>
   </component>
-  <component name="RunManager" selected="Python.main_EL">
+  <component name="RunManager" selected="Python.main_LR">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Machine_Learning" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -81,8 +84,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main_LR" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Machine_Learning" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Linear Regression" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Linear Regression/main_LR.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_LR" />
         <item itemvalue="Python.main_EL" />
         <item itemvalue="Python.main" />
       </list>
@@ -146,7 +171,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634408492130</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="HW1">
+      <created>1634423223921</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1634423223921</updated>
+    </task>
+    <task id="LOCAL-00009" summary="HW1">
+      <created>1634423412900</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1634423412900</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
