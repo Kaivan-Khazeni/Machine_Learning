@@ -2,6 +2,7 @@ import math
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # https://stackoverflow.com/questions/34836777/print-complete-key-path-for-all-the-values-of-a-python-nested-dictionary
 def dict_path(my_dict, path=None):
@@ -118,8 +119,8 @@ def ID3(max_labels, max_depth, variant, S, A, tree=None):
             if len(Sv.columns) == 1 or len(counts) == 1:
                 tree[A][A_val] = common[0]
             else:
-                p = S.loc[S['y'] == 1, 'D_t'].sum()
-                _p = S.loc[S['y'] == -1, 'D_t'].sum()
+                p = Sv.loc[Sv['y'] == 1, 'D_t'].sum()
+                _p = Sv.loc[Sv['y'] == -1, 'D_t'].sum()
                 if p > _p:
                     tree[A][A_val] = 1
                 else:
@@ -188,35 +189,51 @@ def get_error_of_trees(df_A,df_test_A):
     error_df = pd.DataFrame(Errors, index=['Entropy', 'MajorityError', 'Gini Index'])
     return error_df
 
-def adaboost(S,t):
+def adaboost(S,S_test,t):
     dict_ = {}
     sum_of_vote_pred = []
+    errors_per_t = []
+    training_error = []
+    errors_ = {}
+
+    errors_["train"] = []
+    errors_["test"] = []
+
     for i in range(0,t):
         dict_[i] = {}
-
         entropy , train_tree = ID3(-1 * float("inf"), 1, 1, S, "none", tree=None)
         paths = list(dict_path(train_tree, path=None))
-        #print(paths)
         for path in paths:
             attr = path[0][0]
             value = path[0][1]
             label = path[1]
             S.loc[S[attr] == value , 'pred'] = label
+            S_test.loc[S_test[attr] == value, 'pred'] = label
 
-        error = S.loc[S['y'] != S['pred'], 'D_t'].sum()
+        error_train = S.loc[S['y'] != S['pred'], 'D_t'].sum()
+        error_test = S_test.loc[S_test['y'] != S_test['pred'], 'D_t'].sum()
+        errors_['train'].append(error_train)
+        errors_['test'].append(error_test)
 
-        vote = 0.5*np.log((1-error)/error)
+
+        errors_per_t.append(error_train)
+
+        vote = 0.5*np.log((1-error_train)/error_train)
         dict_[i]['vote'] = vote
         dict_[i]['pred'] = S['pred'].values
 
-        #for j in range(0,len(S)):
 
         S['D_t+1'] = S['D_t'] * np.power(2.718281 , (-1 * round(vote,3) * S['y'] * S['pred']))
         S['D_t+1'] = S['D_t+1']/sum(S['D_t'])
         S['D_t'] = S['D_t+1']
         #print(i)
-
+    #here I will do error after we get the final H
     final_pred = []
+    #isSame = True
+    #training error
+    #err = []
+    #for t_ in range(t):
+    # training_error = []
     for i in range(len(S)):
         h_i = []
         for T in range(0,t):
@@ -224,8 +241,14 @@ def adaboost(S,t):
             h_pred = dict_[T]['pred'][i]
             h_i.append(vote_A * h_pred)
         final_pred.append(np.sign(sum(h_i)))
-
-    print(final_pred)
+        #training_error.append(np.power(2.71828, S['D_t'][i] * final_pred[i] * S['y'][i]))
+    #err.append(np.sum(training_error))
+    #print(err)
+    count = 0
+    for j in range(5000):
+       if final_pred[j] != S['y'][j]:
+           count += 1
+    return count
 
 
 
@@ -242,6 +265,16 @@ if __name__ == '__main__':
     bank_df_train.loc[(bank_df_train["y"] == "no"), "y"] = -1
     bank_df_train.loc[(bank_df_train["y"] == "yes"), "y"] = 1
 
+    tempB = bank_df_test
+
+    bank_df_test = check_for_numerical(tempB)
+    bank_df_test.loc[(bank_df_test["y"] == "no"), "y"] = -1
+    bank_df_test.loc[(bank_df_test["y"] == "yes"), "y"] = 1
+    bank_df_test['D_t'] = 1 / len(bank_df_test)
+    bank_df_test['Weighted_y'] = bank_df_test['y'] * bank_df_test['D_t']
+
+    bank_df_test['pred'] = 0
+    bank_df_test['D_t+1'] = 0
 
     bank_df_train['D_t'] = 1/len(bank_df_train)
     bank_df_train['Weighted_y'] = bank_df_train['y'] * bank_df_train['D_t']
@@ -252,8 +285,21 @@ if __name__ == '__main__':
 
     sub_df = bank_df_train[['age','y','D_t']]
 
+    errors_per_t = []
+    for i in range(1,500):
+        e = adaboost(bank_df_train,bank_df_test,i)
+        errors_per_t.append(np.power(2.71828 , e * i))
 
-    adaboost(bank_df_train, 100)
+
+
+    data = np.random.randint(3, 7, (10, 1, 1, 80))
+    newdata = np.squeeze(data)  # Shape is now: (10, 80)
+    plt.plot(newdata)  # plotting by columns
+    plt.show()
+
+
+
+
 
 
 
