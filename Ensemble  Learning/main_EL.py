@@ -55,12 +55,10 @@ def find_total_entropy(max_labels,variant,S):
 
 
 def find_best_split(max_labels, variant, attr, S, total_ent):
-    # Need to check the
 
     list_of_IG = {}
     all_attr_entropy = {}
     for A1 in attr:
-
         all_attr_entropy[A1] = 0
         curr_attr = A1
 
@@ -81,7 +79,7 @@ def find_best_split(max_labels, variant, attr, S, total_ent):
 
         for k,v in prob_.items():
             for val,prob in v.items():
-                list_of_IG[k] += -1 * prob * np.log(prob)
+                list_of_IG[k] += -1 * (prob * np.log(prob))
         total_entropy_attribute = {val: 0 for val in curr_df[curr_attr].unique()}
 
         for val in curr_df[curr_attr].unique():
@@ -138,17 +136,7 @@ def ID3(max_labels, max_depth, variant, S, A, tree=None):
                 tree[A][A_val] = 1
             else:
                 tree[A][A_val] = -1
-                """
-            if len(Sv.columns) == 1 or len(counts) == 1:
-                tree[A][A_val] = common[0]
-            else:
-                p = Sv.loc[Sv['y'] == 1, 'D_t'].sum()
-                _p = Sv.loc[Sv['y'] == -1, 'D_t'].sum()
-                if p > _p:
-                    tree[A][A_val] = 1
-                else:
-                    tree[A][A_val] = -1
-                    """
+
         return total_entropy,tree
 
 
@@ -248,7 +236,7 @@ if __name__ == '__main__':
     errors_per_t_test = []
     axis_y = []
 
-    train_error,test_error = adaboost(bank_df_train, bank_df_test, 10)
+    train_error,test_error = adaboost(bank_df_train, bank_df_test, 40)
     print(train_error)
     print(test_error)
 

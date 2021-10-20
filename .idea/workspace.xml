@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="working on stochastic">
+    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Linear Regression/main_LR.py" beforeDir="false" afterPath="$PROJECT_DIR$/Linear Regression/main_LR.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634537581780</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions">
+      <created>1634686102568</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1634686102568</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -229,14 +235,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="HW1" />
     <MESSAGE value="working on stochastic" />
-    <option name="LAST_COMMIT_MESSAGE" value="working on stochastic" />
+    <MESSAGE value="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions" />
+    <option name="LAST_COMMIT_MESSAGE" value="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>212</line>
+          <line>199</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -261,33 +268,24 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>196</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>251</line>
+          <line>238</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>175</line>
+          <line>162</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="i == 3" language="Python" />
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>166</line>
+          <line>153</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>121</line>
+          <line>118</line>
           <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="33" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
