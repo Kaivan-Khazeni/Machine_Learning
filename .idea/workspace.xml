@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DecisionTree/HW1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DecisionTree/HW1/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634686102568</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions">
+      <created>1634696208684</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1634696208684</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -243,7 +251,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>199</line>
+          <line>203</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -268,24 +276,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>238</line>
-          <option name="timeStamp" value="28" />
+          <line>325</line>
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="if length == 0" language="Python" />
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>162</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <condition expression="i == 3" language="Python" />
-          <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>153</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>118</line>
-          <option name="timeStamp" value="32" />
+          <line>246</line>
+          <option name="timeStamp" value="38" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

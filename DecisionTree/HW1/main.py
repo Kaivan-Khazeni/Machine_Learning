@@ -209,6 +209,7 @@ if __name__ == '__main__':
     temp = bank_df_train
     #Print Errors with Unknown in table, but fix numericals to be binary
     bank_df_train = check_for_numerical(temp)
+    """"
     print(get_error_of_trees(bank_df_train, bank_df_test))
     #Print errors and replace unknown with most common value in that column.
     temp_fix_unknown = bank_df_train
@@ -218,6 +219,6 @@ if __name__ == '__main__':
         else:
             temp_fix_unknown.loc[(temp_fix_unknown[attr] == "unknown"), attr] = temp_fix_unknown[attr].value_counts().keys()[0]
     print(get_error_of_trees(temp_fix_unknown,bank_df_test))
-
+"""
 
 
