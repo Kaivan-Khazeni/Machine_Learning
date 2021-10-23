@@ -94,6 +94,7 @@ if __name__ == '__main__':
 
     #To Run one, please comment and uncomment one.  They will run the appropriate graident descent and print figure and
     #values
+
     #print_batch(df,df_test,0.005,15000)
     #print_stochastic(df,df_test,.0005,30000)
 

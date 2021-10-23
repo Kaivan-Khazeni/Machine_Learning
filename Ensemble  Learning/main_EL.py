@@ -252,7 +252,7 @@ def bagging(S, S_test, T):
     for t in range(1, T):
         oldS = S.copy()
         oldTets= S_test.copy()
-        print(t)
+
         new_df = S.sample(len(S), replace=True)
         dt = DT.ID3(-1 * float("inf"), len(S.columns) * 10, 1, new_df, "none", tree=None)
         train_tree_path = list(dict_path(dt, path=None))
@@ -314,7 +314,6 @@ def random_forest_base(S,S_test, T):
     for t in range(1, T):
         oldS = S.copy()
         oldTets = S_test.copy()
-        print(t)
         new_df = S.sample(len(S), replace=True)
         dt = random_forest(-1 * float("inf"), len(S.columns) * 10, 1, new_df, "none", tree=None)
         train_tree_path = list(dict_path(dt, path=None))
