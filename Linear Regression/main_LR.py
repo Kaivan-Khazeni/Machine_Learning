@@ -6,152 +6,106 @@ import matplotlib.pyplot as plt
 
 def cost_function(X,y, theta):
     m = len(X)
-    pred = X.dot(theta.T)
-    cost = (1/2*m) * np.sum(np.square(pred-y))
+    cost = np.sum((X.dot(theta) - y)**2)/2
     return cost
 
-def batch_gradient_descent(S , theta, r, iter):
-    y = S.output
-    m = len(y)
-    cost_arr = np.zeros(iter)
-    theta_arr = np.zeros((iter,7))
+
+def batch_gradient_descent(S, r, iter):
     X = S[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']]
+    y = S.output
+    cost_history = [0] * iter
+    theta = np.zeros(7)
+    m = len(X)
+    theta_arr = []
+
     converged = False
     for i in range(iter):
-        pred = np.dot(X,theta.T)
-        theta = theta - (1/m) * r * (X.T.dot((pred - y)))
-        theta_arr[i, :] = theta.T
-        cost_arr[i] = cost_function(X,y,theta)
-        if i > 0:
-            if LA.norm(theta_arr[i] - theta_arr[i-1]) < (1/ np.power(10,6)):
-                converged = True
-                return converged , theta, cost_arr, theta_arr
+        pred = X.dot(theta)
+        loss = pred - y
+        grad = X.T.dot(loss)
+        theta = theta - r * grad
+        theta_arr.append(theta)
+        cost = cost_function(X, y, theta)
+        cost_history[i] = cost
 
-    return converged, theta,cost_arr,theta_arr
+    return converged, theta, cost_history
 
 
-    """"
-    iteration = 0
-    w = [[]]
-    m = len(S)
-    cost = []
-    y = S.output
-    X = S[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']]
-    w[0] = np.zeros(7)
-    cost = []
-    for iteration in range(max_iter):
-        cost.append()
-        w.append(np.zeros(7))
-        for j in range(7):
-            gradient = []
-            for i in range(m):
-                y_actual = y[i]
-                y_pred = w[iteration].T.dot(X.iloc[iteration].values)
-                gradient.append((y_pred - y_actual)*X.iloc[i])
-            sum_by_m = (np.sum(gradient)) / m
-            w[iteration + 1][j] = w[iteration][j] - r*sum_by_m
+def stochastic_gradient_descent(S, r, iter):
+    cost_history = [0] * iter
+    theta = np.zeros(7)
 
-    return sum_by_m
-    """
-def stochastic_gradient_descent(X, theta, r, iterations):
+    for i in range(iter):
+        x_sample = S.sample(1, replace=True)
+        X = x_sample[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']].values[0]
+        y = x_sample.output
+        pred = X.dot(theta)
+        loss = pred - y
+        for j in range(len(theta)):
+            temp = theta[j] + r * (y - theta.dot(X)) * X[j]
+            theta[j] = temp
+        cost = cost_function(S[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']], S.output,
+                             theta)
+        cost_history[i] = cost
 
-    m = len(X)
-    cost_arr = np.zeros(iterations)
+    return theta, cost_history
 
-    y = X.output
-    X = X[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']]
-    theta_arr = np.zeros((iterations,7))
+def print_batch(df,df_test,r,iter):
 
-    converged = False
-    for iter in range(iterations):
-        cost = 0
-        for i in range(m):
-            x_i = X.iloc[i].values
-            y_i = y[i]
-            pred = x_i.dot(theta.T)
-            for j in range(7):
-                theta[j] = theta[j] - (1 / m) * r *(pred - y_i) * x_i[j]
-            cost += cost_function(x_i,y_i,theta)
-        theta_arr[iter ] = theta
-        cost_arr[iter] = cost
-        #if iter > 0:
-            #if cost_arr[iter]  < (1 / np.power(10, 6)):
-                #converged = True
-                #return converged, theta, cost_arr
+    converged, theta, cost_history = batch_gradient_descent(df, r, iter)
+    print("Final Weight Vector")
+    print(theta.values)
+    print("Final Learning Rate")
+    print(r)
+    plt.plot(range(len(cost_history)), cost_history, color='red', label=r)
+    plt.ylabel("Cost")
+    plt.xlabel("Iteration")
+    test_cost = cost_function(df_test[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']],
+                              df_test.output, theta)
+    print("Test Cost Function Value")
+    print(test_cost)
+    plt.legend()
+    plt.show()
 
-    return theta,cost_arr
+def print_stochastic(df,df_test,r,iter):
+
+    theta, cost_history = stochastic_gradient_descent(df, r, iter)
+    print("Final Weight Vector")
+    print(theta)
+    print("Final Learning Rate")
+    print(r)
+    plt.plot(range(len(cost_history)), cost_history, color='red', label=r)
+    plt.ylabel("Cost")
+    plt.xlabel("Iteration")
+    test_cost = cost_function(df_test[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']],
+                              df_test.output, theta)
+    print("Test Cost Function Value")
+    print(test_cost)
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':
-
-    labels_value = ['unacc', 'acc', 'good', 'vgood']
-    # label is where the values of each item is stored.  It is not binary,
-    # it is unacceptable, acceptable, good, very good.  This is different
-
     # then before
     attributes = ['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr', 'output']
     df = pd.read_csv('concrete/train.csv', names=attributes)
     df_test = pd.read_csv('concrete/test.csv', names=attributes)
 
-    converged = False
-    r = 1
-    iter = 100
 
-    #GOAL HERE IS TO FIND CORRECT R VALUE WITH THE FINAL DESIRED WEIGHT VECTOR
-    r_did_converge = False
-    final_r = 0
-    final_cost_history = []
-    final_weight_vector = []
-    while r_did_converge == False:
-        theta = np.zeros(7)
-        did_converge, theta, cost_history, theta_history = batch_gradient_descent(df, theta, r, iter)
+    #To Run one, please comment and uncomment one.  They will run the appropriate graident descent and print figure and
+    #values
+    #print_batch(df,df_test,0.005,15000)
+    #print_stochastic(df,df_test,.0005,30000)
 
-        if did_converge == True:
-            r_did_converge = did_converge
-            final_r = r
-            final_cost_history = cost_history
-            final_weight_vector = theta
-        else:
-            r = r/2
-    """
-    print("Final Weight Vector")
-    print(final_weight_vector.values)
-    print("Final Learning Rate")
-    print(r)
-    plt.plot(range(iter),final_cost_history ,color='red', label= r)
-    plt.ylabel("Cost")
-    plt.xlabel("Iteration")
-    
-    test_cost = test_cost_function(df_test[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']].values, df_test.output.values,final_weight_vector)
-    print("Test Cost Function Value")
-    print(test_cost)
-    plt.legend()
-    plt.show()
-    """
-    """
-    converged_sto = False
-    r_sto = 1
-    iter_sto = 10000
+    #analytical weight vector for last problem in assignment
 
-    # GOAL HERE IS TO FIND CORRECT R VALUE WITH THE FINAL DESIRED WEIGHT VECTOR
-    r_did_converge_sto = False
-    final_r_sto = 0
-    final_cost_history_sto = []
-    final_weight_vector_sto = []
-    while r_did_converge_sto == False:
-        theta_B = np.zeros(7)
-        did_converge_sto,theta_SGD, cost_SGD = stochastic_gradient_descent(df, theta_B,r_sto, iter_sto)
+    x_ = df[['Cement', 'Slag', 'Fly ash', 'Water', 'SP', 'Coarse Aggr', 'Fine Aggr']].values
+    y_ = df.output
 
-        if did_converge_sto == True:
-            r_did_converge_sto = did_converge_sto
-            final_r_sto = r_sto
-            final_cost_history_sto = cost_SGD
-            final_weight_vector_sto = theta_SGD
-        else:
-            r_sto = r_sto / 2
-    """
-    theta_B = np.zeros(7)
-    theta_SGD, cost_SGD = stochastic_gradient_descent(df, theta_B, 0.005, 5000)
-    plt.plot(range(5000), cost_SGD, color='red', label=r)
-    plt.show()
+    weight_vector = LA.inv(np.dot(x_.T,x_)).dot(y_.dot(x_))
+    print(weight_vector)
+
+
+
+
 

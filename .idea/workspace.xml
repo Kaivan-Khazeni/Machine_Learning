@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions">
+    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="fixed adaboost, now working on bagged">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DecisionTree/HW1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/DecisionTree/HW1/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ensemble  Learning/main_EL.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Linear Regression/main_LR.py" beforeDir="false" afterPath="$PROJECT_DIR$/Linear Regression/main_LR.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +47,7 @@
       <recent name="$PROJECT_DIR$/Linear Regression" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_EL">
+  <component name="RunManager" selected="Python.main_LR">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Machine_Learning" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -112,8 +113,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main_EL" />
         <item itemvalue="Python.main_LR" />
+        <item itemvalue="Python.main_EL" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -225,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634696208684</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixed adaboost, now working on bagged">
+      <created>1634788113492</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1634788113492</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,46 +252,31 @@
     <MESSAGE value="HW1" />
     <MESSAGE value="working on stochastic" />
     <MESSAGE value="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions" />
-    <option name="LAST_COMMIT_MESSAGE" value="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions" />
+    <MESSAGE value="fixed adaboost, now working on bagged" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed adaboost, now working on bagged" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>203</line>
+          <line>201</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Linear Regression/main_LR.py</url>
-          <line>35</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Linear Regression/main_LR.py</url>
-          <line>50</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Linear Regression/main_LR.py</url>
-          <line>140</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Linear Regression/main_LR.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>325</line>
+          <line>469</line>
           <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <condition expression="if length == 0" language="Python" />
           <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
-          <line>246</line>
-          <option name="timeStamp" value="38" />
+          <line>276</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Ensemble  Learning/main_EL.py</url>
+          <line>295</line>
+          <option name="timeStamp" value="50" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -291,6 +284,19 @@
       <configuration name="PythonConfigurationType">
         <watch expression="zip(X.values,y)" language="Python" />
         <watch expression="y" language="Python" />
+        <watch expression="df_filter.values" language="Python" />
+        <watch expression="np.where(S.values == df_filter.values)" language="Python" />
+        <watch expression="S.loc(S.values.isin(df_filter))" language="Python" />
+        <watch expression="curr_path" language="Python" />
+        <watch expression="type(curr_path[0])" language="Python" />
+        <watch expression="pd.Series(curr_path_dict).all(axis=1)" language="Python" />
+        <watch expression="pd.Series(curr_path_dict).all()" language="Python" />
+        <watch expression="mask = (S == pd.Series(curr_path_dict))" language="Python" />
+        <watch expression="mask" language="Python" />
+        <watch expression="dim(mask)" language="Python" />
+        <watch expression="mask" language="Python" />
+        <watch expression="S.pred" language="Python" />
+        <watch expression="S.pred" language="Python" />
       </configuration>
     </watches-manager>
   </component>

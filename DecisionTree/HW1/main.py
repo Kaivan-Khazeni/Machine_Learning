@@ -61,7 +61,6 @@ def find_best_split(max_labels, variant, attr, S, total_ent):
         found_sum_expected_entropy = 0
         all_attr_values = curr_df[curr_attr].unique()
         for A2 in all_attr_values:
-
             attribute_specific = curr_df[curr_df[curr_attr] == A2]
             found_expected_entropy = 0
             entropy = find_total_entropy(max_labels, variant, attribute_specific)
