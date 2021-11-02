@@ -104,7 +104,6 @@ def average_perceptron(df_train, df_test, T):
             if y[j] * w.dot(X[j]) <= 0:
                 w = w + y[j] * X[j]
             a = a + w
-
         pred_test = np.sign(a.T.dot(df_test[['bias','variance', 'skewness', 'curtosis', 'entropy']].values.T))
 
         X_test = df_test[['bias','variance', 'skewness', 'curtosis', 'entropy']].values
