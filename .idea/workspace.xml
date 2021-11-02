@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="final">
-      <change afterPath="$PROJECT_DIR$/Perceptron/main_Perceptron.py" afterDir="false" />
+    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="hw3_commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -269,7 +268,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634964021582</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="hw3_commit">
+      <created>1635869453371</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1635869453371</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -290,7 +296,8 @@
     <MESSAGE value="working to fix ID3, not creating different stumps which is affecting the lack of variety in my predictions" />
     <MESSAGE value="fixed adaboost, now working on bagged" />
     <MESSAGE value="final" />
-    <option name="LAST_COMMIT_MESSAGE" value="final" />
+    <MESSAGE value="hw3_commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="hw3_commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
