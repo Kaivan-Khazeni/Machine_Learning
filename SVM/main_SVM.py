@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from numpy import linalg as LA
 import matplotlib.pyplot as plt
+from scipy.optimize import minimize
 
 def sub_grad_descent_a(T):
   attributes = ['variance', 'skewness', 'curtosis', 'entropy', 'label']
@@ -102,6 +103,50 @@ def sub_grad_descent_b(T):
     test_error.append(err_count_test / len(df_test))
   return train_error,test_error
 
+
+def obj_func(a, df_train):
+  X = df_train[['variance', 'skewness', 'curtosis', 'entropy']].values
+  y = df_train.label.values
+
+  return (1 / 2 * np.sum(np.outer(y, y) * np.outer(a, a) * (X @ X.T)) - np.sum(a))
+
+def dual():
+  attributes = ['variance', 'skewness', 'curtosis', 'entropy', 'label']
+  df_train = pd.read_csv('bank-note-svm/train.csv', names=attributes)
+  df_train.loc[df_train.label == 0, 'label'] = -1
+
+
+  hyper = [100 / 873, 500 / 873, 700 / 873]
+  w_per_c = []
+  opt_b = []
+  for i in range(len(hyper)):
+    C = hyper[i]
+    bound = [(0, C) for j in range(len(df_train))]
+    a = np.zeros(len(df_train))
+    sol = minimize(fun=obj_func, x0=[a], args=(df_train,), method='SLSQP', bounds=bound)
+    w = [0, 0, 0, 0]
+    b = 0
+    X = df_train[['variance', 'skewness', 'curtosis', 'entropy']].values
+    y = df_train.label.values
+    counter = 0
+    index = np.where(sol.x > 0)
+    for c in range(len(sol.x)):
+      if sol.x[c] > 0:
+        x_i = X[c]
+        y_i = y[c]
+        w += sol.x[c] * y_i * x_i
+    for c in range(len(sol.x)):
+      if sol.x[c] > 0 and sol.x[c] < C:
+        x_i = X[c]
+        y_i = y[c]
+        b += y_i - w.T.dot(x_i)
+        counter += 1
+    print(w)
+    w_per_c.append(w)
+    opt_b.append(b / counter)
+  return w_per_c,opt_b
+
+
 if __name__ == '__main__':
     train_err,test_err = sub_grad_descent_a(100)
     print("TRAINING ERROR : 2A")
@@ -114,6 +159,12 @@ if __name__ == '__main__':
     print(train_err_B)
     print("TESTING ERROR: 2B")
     print(test_err_B)
+
+    w,b = dual()
+    print("Weight Vectors Learned at each C")
+    print(w)
+    print("Bias Term at each C")
+    print(b)
 
 
 
