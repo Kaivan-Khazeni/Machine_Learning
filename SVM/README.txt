@@ -6,3 +6,6 @@ Another method is obj_function which is the objective function of for Q3A where 
 finds the optimal W and Bias terms.
 
 I did not get to the dual gaussian or part c, as of right now this is incomplete until otherwise noted.
+
+
+All information will be printed via the run_hw4.sh file
