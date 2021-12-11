@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="added_svm_content">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="665c8049-fa01-43ac-9e5f-0d3af234e316" name="Changes" comment="added back propogation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,11 +35,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Neural Networks" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Neural Networks" />
       <recent name="$PROJECT_DIR$/SVM" />
       <recent name="$PROJECT_DIR$/Perceptron" />
       <recent name="$PROJECT_DIR$/Ensemble  Learning" />
@@ -373,7 +372,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637390840412</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="added back propogation">
+      <created>1639194564055</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1639194564055</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -397,7 +403,8 @@
     <MESSAGE value="hw3_commit" />
     <MESSAGE value="final commit" />
     <MESSAGE value="added_svm_content" />
-    <option name="LAST_COMMIT_MESSAGE" value="added_svm_content" />
+    <MESSAGE value="added back propogation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added back propogation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

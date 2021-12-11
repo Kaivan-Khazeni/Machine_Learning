@@ -15,7 +15,7 @@ def take_data():
     df_test.loc[df_test.label == 0, 'label'] = -1
     X = df_train[['variance', 'skewness','curtosis', 'entropy']].values
     y = df_train.label.values
-    input_size = 4
+    input_size = len(attributes)-1
     output_size = 1
     hidden_size = len(df_train)
     W1 = np.random.randn(input_size,hidden_size)
@@ -42,13 +42,10 @@ def back_prop(X,y,output,W1,W2,z,z2):
     y = np.asarray([[val]for val in y])
     output_error = y - output
     output_delta = output_error * sigmoid(output,d=True)
-
     z2_error = output_delta.dot(W2.T)
     z2_delta = z2_error * sigmoid(z2,d=True)
-
     W1 += X.T.dot(z2_delta)
     W2 += z2.dot(output_delta)
-
     return W1,W2
 
 if __name__ == '__main__':
